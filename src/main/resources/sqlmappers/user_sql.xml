@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.jwt.mapper.UserMapper">
+    <resultMap id="UserMap" type="user">
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="role" property="role"/>
+    </resultMap>
+    <resultMap id="RefreshMap" type="refresh">
+        <result column="username" property="username"/>
+        <result column="refresh_token" property="refreshToken"/>
+        <result column="expiration" property="expiration"/>
+    </resultMap>
+
+    <select id="existsByUsername" resultType="boolean">
+            SELECT count(*) > 0
+            FROM jwt_user
+            WHERE username=#{username}
+    </select>
+
+    <insert id="saveUser" parameterType="user" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO jwt_user(username,password, role) VALUES(#{username},#{password}, #{role})
+    </insert>
+
+    <insert id="saveRefresh" parameterType="refresh" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO jwt_refresh(username,refresh_token, expiration) VALUES(#{username},#{refreshToken}, #{expiration})
+    </insert>
+
+    <select id="getByUsername" resultMap="UserMap" resultType="user">
+        SELECT id,username,password,role
+        FROM jwt_user
+        WHERE username=#{username}
+    </select>
+
+    <select id="existsRefresh" resultType="boolean">
+        SELECT count(*) > 0
+        FROM jwt_refresh
+        WHERE refresh_token=#{refreshToken}
+    </select>
+
+    <delete id="deleteRefreshToken" parameterType="String">
+        DELETE FROM jwt_refresh
+        WHERE refresh_token=#{refreshToken}
+    </delete>
+
+<!--    <select id="getMemberByIdAndPassword" resultMap="MemberMap" resultType="member">-->
+<!--        SELECT id, email, password-->
+<!--        FROM gallery_members-->
+<!--        WHERE email=#{email}-->
+<!--        AND password=#{password}-->
+<!--    </select>-->
+
+
+
+    <!--    <select id="getAllEmployee" resultMap="EmployeeMap" resultType="employee">-->
+    <!--        SELECT id,name,image_url,role,entry_date,hire_type,career,salary,unit,skill,hp,email,-->
+    <!--        birth_date,marital,family,bank,bank_account,remark,active_yn,-->
+    <!--        created_at,created_by,updated_at,updated_by-->
+    <!--        FROM h_employee-->
+    <!--        WHERE active_yn='Y'-->
+    <!--        ORDER BY created_at-->
+    <!--    </select>-->
+
+    <!--    <select id="getEmployeeById" resultMap="EmployeeMap" resultType="employee">-->
+    <!--        SELECT id,name,image_url,role,entry_date,hire_type,career,salary,unit,skill,hp,email,-->
+    <!--        birth_date,marital,family,bank,bank_account,remark,active_yn,-->
+    <!--        created_at,created_by,updated_at,updated_by-->
+    <!--        FROM h_employee-->
+    <!--        WHERE id=#{id}-->
+    <!--        AND active_yn='Y'-->
+    <!--    </select>-->
+
+    <!--    <select id="getRoleCountForAll" resultMap="RoleCountMap" resultType="roleCount">-->
+    <!--        SELECT role, count(*) cnt-->
+    <!--        FROM h_employee-->
+    <!--        WHERE active_yn='Y'-->
+    <!--        GROUP BY role-->
+    <!--        ORDER BY role-->
+    <!--    </select>-->
+
+
+    <!--    <insert id="saveEmployee" parameterType="employee">-->
+    <!--        INSERT INTO h_employee(id,name,image_url,role,entry_date,hire_type,career,salary,unit,skill,hp,-->
+    <!--        email,birth_date,marital,family,bank,bank_account,remark,active_yn,-->
+    <!--        created_at,created_by,updated_at,updated_by) VALUES(#{id}, #{name}, #{imageUrl},-->
+    <!--        #{role},#{entryDate},#{hireType}, #{career},#{salary},#{unit},#{skill},#{hp},-->
+    <!--        #{email},#{birthDate},#{marital},#{family},#{bank},#{bankAccount},-->
+    <!--        #{remark},#{activeYn},#{createdAt},#{createdBy},#{updatedAt},#{updatedBy})-->
+    <!--    </insert>-->
+
+    <!--    <update id="updateEmployee" parameterType="employee">-->
+    <!--        UPDATE h_employee-->
+    <!--        <set>name = #{name},-->
+    <!--            <if test="imageUrl !=null and imageUrl !='' ">-->
+    <!--                image_url=#{imageUrl},-->
+    <!--            </if>-->
+    <!--            role=#{role}, entry_date=#{entryDate},hire_type=#{hireType}, career=#{career}, salary=#{salary},unit=#{unit},-->
+    <!--            skill=#{skill}, hp=#{hp}, email=#{email}, birth_date=#{birthDate}, marital=#{marital},-->
+    <!--            family=#{family}, bank=#{bank}, bank_account=#{bankAccount}, remark=#{remark}, active_yn=#{activeYn},-->
+    <!--            created_at=#{createdAt},created_by=#{createdBy},updated_at=#{updatedAt},updated_by=#{updatedBy}-->
+    <!--        </set>-->
+    <!--        WHERE id=#{id}-->
+    <!--    </update>-->
+
+    <!--    <update id="deleteEmployeeById" parameterType="String">-->
+    <!--        UPDATE h_employee-->
+    <!--        SET active_yn='N'-->
+    <!--        WHERE id = #{id}-->
+    <!--    </update>-->
+
+
+
+
+
+
+
+
+    <!--    <select id="getUserDetails" resultMap="UserMap" resultType="user">-->
+    <!--        SELECT cust.customer_id,cust.user_id,cust.customer_first_name, cust.customer_last_name,-->
+    <!--        cust.customer_profile_image, cust.customer_email, cust.customer_status,-->
+    <!--        cust.created_on, usr.role_id, usr.user_mobile-->
+    <!--        FROM users_store usr, customers_store cust-->
+    <!--        WHERE usr.user_id = cust.user_id-->
+    <!--        AND usr.user_id=#{userId}-->
+    <!--    </select>-->
+
+    <!--    <select id="getCity" resultMap="CityMap" resultType="city">-->
+    <!--        SELECT city_id, city_name, state_id, city_status-->
+    <!--        FROM cities_store-->
+    <!--        WHERE state_id=#{stateId}-->
+    <!--        AND city_status=1-->
+    <!--        LIMIT #{countPerPage}-->
+    <!--        OFFSET #{pageNo}-->
+    <!--    </select>-->
+
+    <!--    <select id="getArea" resultMap="AreaMap" resultType="area">-->
+    <!--        SELECT area_id, area_name, area_pin_code, city_id, area_status-->
+    <!--        FROM areas_store-->
+    <!--        WHERE city_id=#{cityId}-->
+    <!--        AND area_status=1-->
+    <!--        LIMIT #{countPerPage}-->
+    <!--        OFFSET #{pageNo}-->
+    <!--    </select>-->
+
+
+    <!--        <insert id="saveTask" parameterType="data" useGeneratedKeys="true" keyProperty="taskId" keyColumn="task_id">-->
+    <!--            INSERT INTO task(task_id,task_name,task_description,task_priority) VALUES(#{taskId}, #{taskName},-->
+    <!--            #{taskDescription}, #{taskPriority})-->
+    <!--        </insert>-->
+
+    <!--    &lt;!&ndash;    <update id="updateTask" parameterType="data">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        UPDATE task&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SET task_name = #{updateData.taskName},task_description=#{updateData.taskDescription},task_priority=&ndash;&gt;-->
+    <!--    &lt;!&ndash;        #{updateData.taskPriority}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE task_id=#{updateData.taskId}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </update>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <delete id="deleteTask" parameterType="int">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        DELETE FROM task&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE task_id=#{taskId}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </delete>&ndash;&gt;-->
+
+
+    <!--    &lt;!&ndash;    <update id="updateMember" parameterType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        update member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        set name=#{name},email=#{email},password=#{password},gender = #{gender},mobile_no=#{mobileNo},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        image_url=#{imageUrl}, signup_method=#{signupMethod}, description=#{description},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        delete_yn=#{deleteYn}, created_at=#{createdAt}, updated_at=#{updatedAt}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        where id=#{id}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </update>&ndash;&gt;-->
+
+
+    <!--    &lt;!&ndash;    <resultMap id="FileMap" type="file">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <id column="id" property="id"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <result column="seq" property="seq"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <result column="file_name" property="fileName"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <result column="file_url" property="fileUrl"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <result column="created_at" property="createdAt"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <result column="updated_at" property="updatedAt"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </resultMap>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <insert id="saveMember" parameterType="java.util.List">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        INSERT INTO member VALUES&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <foreach collection="allMembers" item="element" index="index" separator=",">&ndash;&gt;-->
+    <!--    &lt;!&ndash;            (#{element.id}, #{element.name}, #{element.email}, #{element.password}, #{element.gender}, #{element.mobileNo}, #{element.imageUrl},&ndash;&gt;-->
+    <!--    &lt;!&ndash;            #{element.signupMethod}, #{element.description}, #{element.deleteYn}, #{element.createdAt}, #{element.updatedAt})&ndash;&gt;-->
+    <!--    &lt;!&ndash;        </foreach>&ndash;&gt;-->
+    <!--    &lt;!&ndash;        &lt;!&ndash;        INSERT INTO member VALUES(#{id}, #{name}, #{email}, #{password}, #{gender}, #{mobileNo}, #{imageUrl},&ndash;&gt;&ndash;&gt;-->
+    <!--    &lt;!&ndash;        &lt;!&ndash;        #{signupMethod}, #{description}, #{deleteYn}, #{createdAt}, #{updatedAt})&ndash;&gt;&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </insert>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <update id="updateMember" parameterType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        update member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        set name=#{name},email=#{email},password=#{password},gender = #{gender},mobile_no=#{mobileNo},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        image_url=#{imageUrl}, signup_method=#{signupMethod}, description=#{description},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        delete_yn=#{deleteYn}, created_at=#{createdAt}, updated_at=#{updatedAt}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        where id=#{id}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </update>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="getMemberById" resultMap="MemberMap" parameterType="String" resultType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SELECT id, name, email, password, gender, mobile_no, image_url, signup_method, description, delete_yn,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        created_at, updated_at&ndash;&gt;-->
+    <!--    &lt;!&ndash;        FROM member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE id = #{id}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        AND delete_yn='N'&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="getSearchMemberByKeyword" resultMap="MemberMap" parameterType="String" resultType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SELECT id, name, email, password, gender, mobile_no, image_url, signup_method, description, delete_yn,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        created_at, updated_at&ndash;&gt;-->
+    <!--    &lt;!&ndash;        FROM member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE name like '%${searchWord}%'&ndash;&gt;-->
+    <!--    &lt;!&ndash;        AND delete_yn='N'&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="getMemberByEmail" resultMap="MemberMap" parameterType="String" resultType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SELECT id, name, email, password, gender, mobile_no, image_url, signup_method, description, delete_yn,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        created_at, updated_at&ndash;&gt;-->
+    <!--    &lt;!&ndash;        FROM member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE email = #{email}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        AND delete_yn='N'&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="getMemberByEmailAndPassword" resultMap="MemberMap" parameterType="String" resultType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SELECT id, name, email, password, gender, mobile_no, image_url, signup_method, description, delete_yn,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        created_at, updated_at&ndash;&gt;-->
+    <!--    &lt;!&ndash;        FROM member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE email = #{email}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        AND password = #{password}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        AND delete_yn='N'&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+
+    <!--    &lt;!&ndash;    <select id="getAllMember" resultMap="MemberMap" resultType="member">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SELECT id, name, email, password, gender, mobile_no, image_url, signup_method, description, delete_yn,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        created_at, updated_at&ndash;&gt;-->
+    <!--    &lt;!&ndash;        FROM member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE delete_yn = 'N'&ndash;&gt;-->
+    <!--    &lt;!&ndash;        ORDER BY updated_at DESC&ndash;&gt;-->
+    <!--    &lt;!&ndash;        limit #{countPerPage}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        offset #{pageNo}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <insert id="saveFile" parameterType="java.util.List">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        INSERT INTO files(id,seq,file_name,file_url, created_at, updated_at) VALUES&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <foreach collection="fileDtos" item="item" index="index" separator=",">&ndash;&gt;-->
+    <!--    &lt;!&ndash;            (#{item.id}, #{item.seq},#{item.fileName},#{item.fileUrl}, #{item.createdAt}, #{item.updatedAt})&ndash;&gt;-->
+    <!--    &lt;!&ndash;        </foreach>&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </insert>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="getFileById" resultMap="FileMap" parameterType="String" resultType="file">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SELECT id, seq, file_name, file_url, created_at, updated_at&ndash;&gt;-->
+    <!--    &lt;!&ndash;        FROM files&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE id=#{id}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <update id="deleteMemberById" parameterType="String">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        UPDATE member&ndash;&gt;-->
+    <!--    &lt;!&ndash;        SET delete_yn='Y'&ndash;&gt;-->
+    <!--    &lt;!&ndash;        WHERE id = #{id}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </update>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="bookings" resultMap="BookingMap" resultType="com.jackie.booking.model.Booking">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        select book_id, region_code, region_name, court_code, court_name, book_date, seq, order_seq,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        slot, court_no, book_yn, name, email, comment, slot_last_time,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        create_date, update_date&ndash;&gt;-->
+    <!--    &lt;!&ndash;        from futsal_booking&ndash;&gt;-->
+    <!--    &lt;!&ndash;        where region_code =#{regionCode} and court_code=#{courtCode} and book_date = #{bookDate}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="bookingPagination" resultMap="BookingMap" resultType="com.jackie.booking.model.Booking">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        select book_id, region_code, region_name, court_code, court_name, book_date, seq, order_seq,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        slot, court_no, book_yn, name, email, comment, slot_last_time,&ndash;&gt;-->
+    <!--    &lt;!&ndash;        create_date, update_date&ndash;&gt;-->
+    <!--    &lt;!&ndash;        from futsal_booking&ndash;&gt;-->
+    <!--    &lt;!&ndash;        order by book_id&ndash;&gt;-->
+    <!--    &lt;!&ndash;        limit #{countPerPage}&ndash;&gt;-->
+    <!--    &lt;!&ndash;        offset #{pageNo}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <select id="checkIfSavedSameTime" resultType="long">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        select count(*)&ndash;&gt;-->
+    <!--    &lt;!&ndash;        from futsal_booking&ndash;&gt;-->
+    <!--    &lt;!&ndash;        where region_code =#{regionCode} and court_code=#{courtCode} and book_date =#{bookDate} and slot =#{slot} and court_no =#{courtNo} and book_yn=true&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </select>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <insert id="createBooking" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="bookId">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        Insert into futsal_booking values&ndash;&gt;-->
+    <!--    &lt;!&ndash;        <foreach collection="bookings" item="element" index="index" separator=",">&ndash;&gt;-->
+    <!--    &lt;!&ndash;            (#{element.bookId}, #{element.regionCode},#{element.regionName},#{element.courtCode},#{element.courtName},#{element.bookDate}, #{element.seq},&ndash;&gt;-->
+    <!--    &lt;!&ndash;            #{element.orderSeq}, #{element.slot},#{element.courtNo},#{element.bookYn},#{element.name},#{element.email},&ndash;&gt;-->
+    <!--    &lt;!&ndash;            #{element.comment},#{element.slotLastTime},sysdate(),sysdate())&ndash;&gt;-->
+    <!--    &lt;!&ndash;        </foreach>&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </insert>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;    <update id="update" parameterType="com.jackie.booking.model.Booking">&ndash;&gt;-->
+    <!--    &lt;!&ndash;        update futsal_booking&ndash;&gt;-->
+    <!--    &lt;!&ndash;        set region_code=#{updateBooking.regionCode}, region_name=#{updateBooking.regionName},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        court_code=#{updateBooking.courtCode}, court_name = #{updateBooking.courtName},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        book_date=#{updateBooking.bookDate},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        seq=#{updateBooking.seq}, order_seq=#{updateBooking.orderSeq}, slot=#{updateBooking.slot},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        court_no=#{updateBooking.courtNo}, book_yn=#{updateBooking.bookYn}, name=#{updateBooking.name},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        email=#{updateBooking.email}, comment=#{updateBooking.comment}, slot_last_time=#{updateBooking.slotLastTime},&ndash;&gt;-->
+    <!--    &lt;!&ndash;        create_date=#{updateBooking.createDate}, update_date=sysdate()&ndash;&gt;-->
+    <!--    &lt;!&ndash;        where book_id=#{bookId}&ndash;&gt;-->
+    <!--    &lt;!&ndash;    </update>&ndash;&gt;-->
+</mapper>
